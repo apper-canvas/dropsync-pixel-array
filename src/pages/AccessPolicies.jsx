@@ -269,18 +269,18 @@ function AccessPolicies() {
     }
   }
 
-  return (
-    <div className="min-h-screen">
+return (
+    <div className="min-h-screen bg-gradient-to-br from-surface-50 to-surface-100">
       {/* Header */}
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass-effect sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4"
+        className="glass-effect sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4 border-b border-surface-200/60"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-card">
-              <ApperIcon name="Shield" className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-4">
+            <div className="icon-badge icon-badge-secondary">
+              <ApperIcon name="Shield" className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-gradient">Access Policies</h1>
@@ -289,13 +289,13 @@ function AccessPolicies() {
           </div>
           
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 bg-surface-100 rounded-xl p-1">
+<nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
             <Link
               to="/"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -305,10 +305,10 @@ function AccessPolicies() {
             </Link>
             <Link
               to="/dashboard"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/dashboard'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -318,10 +318,10 @@ function AccessPolicies() {
             </Link>
             <Link
               to="/archive"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/archive'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -331,10 +331,10 @@ function AccessPolicies() {
             </Link>
             <Link
               to="/policies"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/policies'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -361,77 +361,95 @@ function AccessPolicies() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
-        >
-          <div className="neu-card p-6">
+<motion.div
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Active Policies</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Active Policies</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {policies.filter(policy => policy.enabled).length}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Currently enforced</p>
               </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="Shield" className="w-6 h-6 text-primary" />
+              <div className="icon-badge icon-badge-primary group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="Shield" className="w-6 h-6" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="neu-card p-6">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Users Covered</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Users Covered</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {policies.reduce((sum, policy) => sum + policy.appliedTo, 0)}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Total coverage</p>
               </div>
-              <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="Users" className="w-6 h-6 text-secondary" />
+              <div className="icon-badge icon-badge-secondary group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="Users" className="w-6 h-6" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="neu-card p-6">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Role Policies</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Role Policies</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {policies.filter(policy => policy.type === 'role').length}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Role-based rules</p>
               </div>
-              <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="UserCheck" className="w-6 h-6 text-accent" />
+              <div className="icon-badge icon-badge-accent group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="UserCheck" className="w-6 h-6" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="neu-card p-6">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Path Restrictions</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Path Restrictions</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {policies.filter(policy => policy.type === 'path').length}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Protected paths</p>
               </div>
-              <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                <ApperIcon name="FolderLock" className="w-6 h-6 text-red-600" />
+              <div className="bg-gradient-to-br from-error-500 to-error-600 w-12 h-12 rounded-xl flex items-center justify-center shadow-depth-1 text-white group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="FolderLock" className="w-6 h-6" />
               </div>
             </div>
-          </div>
-        </motion.div>
-
+{/* Policies List */}
         {/* Policies List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="neu-card p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-surface-900">Access Policies</h2>
+>
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-surface-900">Access Policies</h2>
+              <p className="text-surface-600 mt-1">Configure file access permissions and restrictions</p>
+            </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-surface-600">
-                {policies.length} policy(ies)
-              </span>
+              <div className="bg-gradient-to-r from-secondary-50 to-secondary-100 px-4 py-2 rounded-xl border border-secondary-200">
+                <span className="text-sm font-semibold text-secondary-700">
+                  {policies.length} policy{policies.length !== 1 ? 'ies' : 'y'}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -442,47 +460,59 @@ function AccessPolicies() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-surface-200 p-4 hover:shadow-soft transition-all duration-200"
+className="professional-card p-6 group"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <ApperIcon name={getPolicyTypeIcon(policy.type)} className="w-5 h-5 text-primary" />
-                      <h3 className="font-semibold text-surface-900">{policy.name}</h3>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
+<div className="w-10 h-10 bg-gradient-to-br from-secondary-500 to-secondary-600 rounded-xl flex items-center justify-center shadow-depth-1">
+                        <ApperIcon name={getPolicyTypeIcon(policy.type)} className="w-5 h-5 text-white" />
+                      </div>
+                      <h3 className="font-bold text-surface-900 text-lg">{policy.name}</h3>
+                      <span className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
                         policy.enabled
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-surface-100 text-surface-600'
+                          ? 'status-active'
+                          : 'status-inactive'
                       }`}>
                         {policy.enabled ? 'Active' : 'Inactive'}
                       </span>
-                      <span className={`px-2 py-1 text-xs rounded-full ${getPolicyTypeColor(policy.type)}`}>
-                        {policy.type}
+                      <span className={`px-3 py-1.5 text-xs font-semibold rounded-full border ${
+                        policy.type === 'role' ? 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 border-blue-300' :
+                        policy.type === 'group' ? 'bg-gradient-to-r from-green-100 to-green-200 text-green-700 border-green-300' :
+                        policy.type === 'user' ? 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-700 border-purple-300' :
+                        'bg-gradient-to-r from-red-100 to-red-200 text-red-700 border-red-300'
+                      }`}>
+                        {policy.type.toUpperCase()}
                       </span>
-                      <span className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full">
+                      <span className={`px-3 py-1.5 text-xs font-semibold rounded-full ${
+                        policy.priority === 0 ? 'status-priority-high' :
+                        policy.priority <= 2 ? 'status-priority-medium' : 'status-priority-low'
+                      }`}>
                         Priority {policy.priority}
                       </span>
-                    </div>
                     
                     <p className="text-surface-600 text-sm mb-3">{policy.description}</p>
                     
-                    <div className="space-y-2">
+<div className="space-y-4">
                       {/* Permissions */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs font-medium text-surface-500">Permissions:</span>
-                        <div className="flex flex-wrap gap-1">
+                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <ApperIcon name="Key" className="w-4 h-4 text-blue-600" />
+                          <span className="text-sm font-semibold text-blue-700">Permissions</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
                           {policy.permissions.length > 0 ? (
                             policy.permissions.map((permission) => (
                               <span
                                 key={permission}
-                                className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
+                                className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-blue-200 to-blue-300 text-blue-800 rounded-full border border-blue-400"
                               >
-                                {permission}
+                                {permission.toUpperCase()}
                               </span>
                             ))
                           ) : (
-                            <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">
-                              No access
+                            <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-red-200 to-red-300 text-red-800 rounded-full border border-red-400">
+                              NO ACCESS
                             </span>
                           )}
                         </div>
@@ -490,19 +520,22 @@ function AccessPolicies() {
                       
                       {/* Targets */}
                       {policy.targets.length > 0 && (
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs font-medium text-surface-500">Targets:</span>
-                          <div className="flex flex-wrap gap-1">
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <ApperIcon name="Target" className="w-4 h-4 text-green-600" />
+                            <span className="text-sm font-semibold text-green-700">Targets</span>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
                             {policy.targets.slice(0, 3).map((target) => (
                               <span
                                 key={target}
-                                className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded"
+                                className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-green-200 to-green-300 text-green-800 rounded-full border border-green-400"
                               >
                                 {target}
                               </span>
                             ))}
                             {policy.targets.length > 3 && (
-                              <span className="px-2 py-1 text-xs bg-surface-100 text-surface-600 rounded">
+                              <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-surface-200 to-surface-300 text-surface-700 rounded-full border border-surface-400">
                                 +{policy.targets.length - 3} more
                               </span>
                             )}
@@ -510,67 +543,78 @@ function AccessPolicies() {
                         </div>
                       )}
                       
-                      {/* Paths */}
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs font-medium text-surface-500">Paths:</span>
-                        <div className="flex flex-wrap gap-1">
-                          {policy.paths.slice(0, 2).map((path) => (
-                            <span
-                              key={path}
-                              className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded font-mono"
-                            >
-                              {path}
-                            </span>
-                          ))}
-                          {policy.paths.length > 2 && (
-                            <span className="px-2 py-1 text-xs bg-surface-100 text-surface-600 rounded">
-                              +{policy.paths.length - 2} more
-                            </span>
-                          )}
+                      {/* Paths and Meta Info */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-xl border border-yellow-200">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <ApperIcon name="FolderOpen" className="w-4 h-4 text-yellow-600" />
+                            <span className="text-sm font-semibold text-yellow-700">Paths</span>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {policy.paths.slice(0, 2).map((path) => (
+                              <span
+                                key={path}
+                                className="px-3 py-1.5 text-xs font-mono font-semibold bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-800 rounded-full border border-yellow-400"
+                              >
+                                {path}
+                              </span>
+                            ))}
+                            {policy.paths.length > 2 && (
+                              <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-surface-200 to-surface-300 text-surface-700 rounded-full border border-surface-400">
+                                +{policy.paths.length - 2} more
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      
-                      {/* Meta info */}
-                      <div className="flex items-center space-x-4 text-xs text-surface-500 pt-2">
-                        <span className="flex items-center space-x-1">
-                          <ApperIcon name="Calendar" className="w-3 h-3" />
-                          <span>Created {format(policy.createdDate, 'MMM dd, yyyy')}</span>
-                        </span>
-                        <span className="flex items-center space-x-1">
-                          <ApperIcon name="Users" className="w-3 h-3" />
-                          <span>Applied to {policy.appliedTo} users</span>
-                        </span>
+                        
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <ApperIcon name="Info" className="w-4 h-4 text-purple-600" />
+                            <span className="text-sm font-semibold text-purple-700">Details</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-2 text-xs text-purple-800">
+                              <ApperIcon name="Calendar" className="w-3 h-3" />
+                              <span>Created {format(policy.createdDate, 'MMM dd, yyyy')}</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-xs text-purple-800">
+                              <ApperIcon name="Users" className="w-3 h-3" />
+                              <span>Applied to {policy.appliedTo} users</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-center space-x-2 ml-4">
-                    <button
-                      onClick={() => handleTogglePolicy(policy.id)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        policy.enabled
-                          ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                          : 'bg-surface-100 text-surface-500 hover:bg-surface-200'
-                      }`}
-                      title={policy.enabled ? 'Disable policy' : 'Enable policy'}
-                    >
-                      <ApperIcon name={policy.enabled ? "Toggle" : "ToggleLeft"} className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleEditPolicy(policy)}
-                      className="p-2 rounded-lg bg-surface-100 text-surface-600 hover:bg-surface-200 transition-colors"
-                      title="Edit policy"
-                    >
-                      <ApperIcon name="Edit" className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeletePolicy(policy.id)}
-                      className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
-                      title="Delete policy"
-                    >
-                      <ApperIcon name="Trash2" className="w-4 h-4" />
-                    </button>
-                  </div>
+<div className="flex flex-col space-y-2">
+                      <button
+                        onClick={() => handleTogglePolicy(policy.id)}
+                        className={`p-3 rounded-xl transition-all duration-200 ${
+                          policy.enabled
+                            ? 'bg-gradient-to-r from-success-500 to-success-600 text-white shadow-depth-2 hover:shadow-depth-3'
+                            : 'bg-gradient-to-r from-surface-300 to-surface-400 text-surface-600 hover:from-surface-400 hover:to-surface-500'
+                        }`}
+                        title={policy.enabled ? 'Disable policy' : 'Enable policy'}
+                      >
+                        <ApperIcon name={policy.enabled ? "ToggleRight" : "ToggleLeft"} className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleEditPolicy(policy)}
+                        className="p-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-depth-2 hover:shadow-depth-3 transition-all duration-200"
+                        title="Edit policy"
+                      >
+                        <ApperIcon name="Edit" className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePolicy(policy.id)}
+                        className="p-3 rounded-xl bg-gradient-to-r from-error-500 to-error-600 text-white shadow-depth-2 hover:shadow-depth-3 transition-all duration-200"
+                        title="Delete policy"
+                      >
+                        <ApperIcon name="Trash2" className="w-4 h-4" />
+                      </button>
+                    </div>
                 </div>
               </motion.div>
             ))}

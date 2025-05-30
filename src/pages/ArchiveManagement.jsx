@@ -204,27 +204,16 @@ function ArchiveManagement() {
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass-effect sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4"
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-card">
-              <ApperIcon name="Archive" className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gradient">Archive Management</h1>
-              <p className="text-xs text-surface-600 hidden sm:block">Automated File Archival Rules</p>
-            </div>
-          </div>
-          
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 bg-surface-100 rounded-xl p-1">
+className="bg-white shadow-depth-1 border-b border-surface-200"
+>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
             <Link
               to="/"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -234,10 +223,10 @@ function ArchiveManagement() {
             </Link>
             <Link
               to="/dashboard"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/dashboard'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -247,10 +236,10 @@ function ArchiveManagement() {
             </Link>
             <Link
               to="/archive"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/archive'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -260,10 +249,10 @@ function ArchiveManagement() {
             </Link>
             <Link
               to="/policies"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                 location.pathname === '/policies'
-                  ? 'bg-white text-primary shadow-card'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
               }`}
             >
               <span className="flex items-center space-x-2">
@@ -275,13 +264,12 @@ function ArchiveManagement() {
           
           <button
             onClick={() => setShowRuleModal(true)}
-            className="btn-primary flex items-center space-x-2"
+            className="btn-primary flex items-center space-x-2 shadow-depth-2 hover:shadow-depth-3"
           >
             <ApperIcon name="Plus" className="w-4 h-4" />
             <span className="hidden sm:inline">New Rule</span>
           </button>
         </div>
-      </motion.header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
@@ -290,47 +278,58 @@ function ArchiveManagement() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-        >
-          <div className="neu-card p-6">
+transition={{ delay: 0.05 }}
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Active Rules</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Active Rules</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {archivalRules.filter(rule => rule.enabled).length}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Currently running</p>
               </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="Settings" className="w-6 h-6 text-primary" />
+              <div className="icon-badge icon-badge-primary group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="Settings" className="w-6 h-6" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="neu-card p-6">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Files Archived</p>
-                <p className="text-2xl font-bold text-surface-900">
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Files Archived</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">
                   {archivalRules.reduce((sum, rule) => sum + rule.filesArchived, 0)}
                 </p>
+                <p className="text-xs text-surface-500 mt-1">Total processed</p>
               </div>
-              <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="Archive" className="w-6 h-6 text-secondary" />
+              <div className="icon-badge icon-badge-secondary group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="Archive" className="w-6 h-6" />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="neu-card p-6">
+          <motion.div 
+            whileHover={{ y: -5 }}
+            className="stat-card group"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-surface-600">Space Saved</p>
-                <p className="text-2xl font-bold text-surface-900">2.4 GB</p>
+                <p className="text-sm font-semibold text-surface-600 uppercase tracking-wide">Space Saved</p>
+                <p className="text-3xl font-bold text-surface-900 mt-2">2.4 GB</p>
+                <p className="text-xs text-surface-500 mt-1">Storage optimized</p>
               </div>
-              <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                <ApperIcon name="HardDrive" className="w-6 h-6 text-accent" />
+              <div className="icon-badge icon-badge-accent group-hover:scale-110 transition-transform duration-300">
+                <ApperIcon name="HardDrive" className="w-6 h-6" />
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
         {/* Rules List */}
         <motion.div
@@ -338,13 +337,18 @@ function ArchiveManagement() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="neu-card p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-surface-900">Archival Rules</h2>
+>
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
+              <p className="text-surface-600 mt-1">Manage automated file archival policies</p>
+            </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-surface-600">
-                {archivalRules.length} rule(s)
-              </span>
+              <div className="bg-gradient-to-r from-primary-50 to-primary-100 px-4 py-2 rounded-xl border border-primary-200">
+                <span className="text-sm font-semibold text-primary-700">
+                  {archivalRules.length} rule{archivalRules.length !== 1 ? 's' : ''}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -355,85 +359,106 @@ function ArchiveManagement() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-surface-200 p-4 hover:shadow-soft transition-all duration-200"
+className="professional-card p-6 group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="font-semibold text-surface-900">{rule.name}</h3>
-                      <span className={`px-2 py-1 text-xs rounded-full ${
+<div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
+                        <ApperIcon name="Archive" className="w-4 h-4 text-white" />
+                      </div>
+                      <h3 className="font-bold text-surface-900 text-lg">{rule.name}</h3>
+                      <span className={`px-3 py-1.5 text-xs font-semibold rounded-full transition-all duration-200 ${
                         rule.enabled
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-surface-100 text-surface-600'
+                          ? 'status-active'
+                          : 'status-inactive'
                       }`}>
                         {rule.enabled ? 'Active' : 'Inactive'}
                       </span>
-                      <span className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full capitalize">
+                      <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full border border-primary-300 capitalize">
                         {rule.schedule}
                       </span>
-                    </div>
                     <p className="text-surface-600 text-sm mb-2">{rule.description}</p>
                     <div className="flex flex-wrap items-center gap-4 text-sm text-surface-500">
-                      <span className="flex items-center space-x-1">
-                        <ApperIcon name="Filter" className="w-4 h-4" />
-                        <span>{formatCriteria(rule.criteria)}</span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <ApperIcon name="FileType" className="w-4 h-4" />
-                        <span>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
+                        <div className="flex items-center space-x-2">
+                          <ApperIcon name="Filter" className="w-4 h-4 text-blue-600" />
+                          <span className="text-xs font-semibold text-blue-700">Criteria</span>
+                        </div>
+                        <p className="text-sm font-medium text-blue-800 mt-1">{formatCriteria(rule.criteria)}</p>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-green-50 to-green-100 p-3 rounded-xl border border-green-200">
+                        <div className="flex items-center space-x-2">
+                          <ApperIcon name="FileType" className="w-4 h-4 text-green-600" />
+                          <span className="text-xs font-semibold text-green-700">File Types</span>
+                        </div>
+                        <p className="text-sm font-medium text-green-800 mt-1">
                           {rule.fileTypes.includes('all') 
                             ? 'All file types' 
                             : `${rule.fileTypes.length} type(s)`}
-                        </span>
-                      </span>
-                      <span className="flex items-center space-x-1">
-                        <ApperIcon name="Archive" className="w-4 h-4" />
-                        <span>{rule.filesArchived} files archived</span>
-                      </span>
-                      {rule.lastRun && (
-                        <span className="flex items-center space-x-1">
-                          <ApperIcon name="Clock" className="w-4 h-4" />
-                          <span>Last run: {format(rule.lastRun, 'MMM dd, yyyy')}</span>
-                        </span>
-                      )}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-3 rounded-xl border border-purple-200">
+                        <div className="flex items-center space-x-2">
+                          <ApperIcon name="Archive" className="w-4 h-4 text-purple-600" />
+                          <span className="text-xs font-semibold text-purple-700">Archived</span>
+                        </div>
+                        <p className="text-sm font-medium text-purple-800 mt-1">{rule.filesArchived} files</p>
+                      </div>
+                      
+                      <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-3 rounded-xl border border-orange-200">
+                        <div className="flex items-center space-x-2">
+                          <ApperIcon name="Clock" className="w-4 h-4 text-orange-600" />
+                          <span className="text-xs font-semibold text-orange-700">Last Run</span>
+                        </div>
+                        <p className="text-sm font-medium text-orange-800 mt-1">
+                          {rule.lastRun ? format(rule.lastRun, 'MMM dd, yyyy') : 'Never'}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => handleToggleRule(rule.id)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        rule.enabled
-                          ? 'bg-green-100 text-green-600 hover:bg-green-200'
-                          : 'bg-surface-100 text-surface-500 hover:bg-surface-200'
-                      }`}
-                      title={rule.enabled ? 'Disable rule' : 'Enable rule'}
-                    >
-                      <ApperIcon name={rule.enabled ? "Pause" : "Play"} className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleRunRule(rule.id)}
-                      className="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                      title="Run now"
-                      disabled={!rule.enabled}
-                    >
-                      <ApperIcon name="PlayCircle" className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleEditRule(rule)}
-                      className="p-2 rounded-lg bg-surface-100 text-surface-600 hover:bg-surface-200 transition-colors"
-                      title="Edit rule"
-                    >
-                      <ApperIcon name="Edit" className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteRule(rule.id)}
-                      className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
-                      title="Delete rule"
-                    >
-                      <ApperIcon name="Trash2" className="w-4 h-4" />
-                    </button>
-                  </div>
+<div className="flex flex-col space-y-2">
+                      <button
+                        onClick={() => handleToggleRule(rule.id)}
+                        className={`p-3 rounded-xl transition-all duration-200 ${
+                          rule.enabled
+                            ? 'bg-gradient-to-r from-success-500 to-success-600 text-white shadow-depth-2 hover:shadow-depth-3'
+                            : 'bg-gradient-to-r from-surface-200 to-surface-300 text-surface-600 hover:from-surface-300 hover:to-surface-400'
+                        }`}
+                        title={rule.enabled ? 'Disable rule' : 'Enable rule'}
+                      >
+                        <ApperIcon name={rule.enabled ? "Pause" : "Play"} className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleRunRule(rule.id)}
+                        className="p-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-depth-2 hover:shadow-depth-3 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                        title="Run now"
+                        disabled={!rule.enabled}
+                      >
+                        <ApperIcon name="PlayCircle" className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                      <button
+                        onClick={() => handleEditRule(rule)}
+                        className="p-3 rounded-xl bg-gradient-to-r from-secondary-500 to-secondary-600 text-white shadow-depth-2 hover:shadow-depth-3 transition-all duration-200"
+                        title="Edit rule"
+                      >
+                        <ApperIcon name="Edit" className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRule(rule.id)}
+                        className="p-3 rounded-xl bg-gradient-to-r from-error-500 to-error-600 text-white shadow-depth-2 hover:shadow-depth-3 transition-all duration-200"
+                        title="Delete rule"
+                      >
+                        <ApperIcon name="Trash2" className="w-4 h-4" />
+                      </button>
+                    </div>
                 </div>
               </motion.div>
             ))}
