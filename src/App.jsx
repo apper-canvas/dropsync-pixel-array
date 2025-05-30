@@ -15,16 +15,17 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-surface-50 via-white to-surface-100 dark:from-surface-900 dark:via-surface-800 dark:to-surface-900">
       <Routes>
-<Route path="/dashboard" element={<StorageDashboard />} />
-        <Route path="/" element={<Home />} />
-<Route path="/archive" element={<ArchiveManagement />} />
+<Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<StorageDashboard />} />
+        <Route path="/archive" element={<ArchiveManagement />} />
         <Route path="/policies" element={<AccessPolicies />} />
-<Route path="/origin-policies" element={<OriginPolicies />} />
+        <Route path="/origin-policies" element={<OriginPolicies />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-<Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-<Footer />
+      
+      <Footer />
       
       <ToastContainer
         position="top-right"
