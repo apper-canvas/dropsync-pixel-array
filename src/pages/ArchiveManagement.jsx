@@ -205,7 +205,11 @@ function ArchiveManagement() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
 className="header-gradient shadow-professional text-white"
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex items-center justify-between">
+className="header-gradient shadow-professional text-white"
+>
           <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
             <Link
               to="/"
@@ -268,7 +272,10 @@ className="header-gradient shadow-professional text-white"
             <ApperIcon name="Plus" className="w-4 h-4" />
             <span className="hidden sm:inline">New Rule</span>
           </button>
+</button>
+          </div>
         </div>
+      </motion.header>
 </motion.header>
 
       {/* Main Content */}
@@ -277,9 +284,9 @@ className="header-gradient shadow-professional text-white"
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+transition={{ delay: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
-          <motion.div
             whileHover={{ y: -5 }}
             className="stat-card group"
           >
@@ -339,7 +346,6 @@ className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           transition={{ delay: 0.1 }}
         >
           <div className="flex items-center justify-between mb-8">
-<div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
               <p className="text-surface-600 mt-1">Manage automated file archival policies</p>
@@ -360,11 +366,12 @@ className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-className="professional-card p-6 group"
+transition={{ delay: index * 0.1 }}
+                className="bg-white p-6 rounded-2xl shadow-depth-1 hover:shadow-depth-2 transition-all duration-300 border border-surface-200"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-<div className="flex items-center space-x-3 mb-2">
+<div className="flex items-center space-x-4 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
                       </div>
@@ -460,7 +467,7 @@ className="professional-card p-6 group"
                       </button>
                     </div>
 </div>
-</div>
+                </div>
               </motion.div>
             ))}
           </div>
