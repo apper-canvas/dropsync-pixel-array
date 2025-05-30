@@ -31,8 +31,7 @@ function Header({
           </div>
         </div>
         
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center space-x-1 bg-surface-100 rounded-xl p-1">
+<nav className="hidden md:flex items-center space-x-2">
           <Link
             to="/"
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
@@ -40,6 +39,16 @@ function Header({
                 ? 'bg-white text-primary shadow-card'
                 : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
             }`}
+          >
+            <span className="flex items-center space-x-2">
+              <ApperIcon name="Upload" className="w-4 h-4" />
+              <span>Files</span>
+            </span>
+          </Link>
+          <Link
+            to="/dashboard"
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              location.pathname === '/dashboard'
           >
             <span className="flex items-center space-x-2">
               <ApperIcon name="Upload" className="w-4 h-4" />

@@ -6,6 +6,7 @@ import StorageDashboard from './pages/StorageDashboard'
 import NotFound from './pages/NotFound'
 import ArchiveManagement from './pages/ArchiveManagement'
 import AccessPolicies from './pages/AccessPolicies'
+import OriginPolicies from './pages/OriginPolicies'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
 <Route path="/archive" element={<ArchiveManagement />} />
         <Route path="/policies" element={<AccessPolicies />} />
+<Route path="/origin-policies" element={<OriginPolicies />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       
