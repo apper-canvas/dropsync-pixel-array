@@ -14,9 +14,9 @@ import {
 function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const navigationLinks = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Storage Analytics', href: '/dashboard' },
+const navigationLinks = [
+{ name: 'Home', href: '/' },
+    { name: 'Storage Dashboard', href: '/dashboard' },
     { name: 'Archive Management', href: '/archive' },
     { name: 'Access Policies', href: '/policies' },
     { name: 'Origin Policies', href: '/origin-policies' }
