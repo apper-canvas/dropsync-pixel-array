@@ -432,6 +432,8 @@ return (
                 <ApperIcon name="FolderLock" className="w-6 h-6" />
               </div>
             </div>
+</motion.div>
+        </motion.div>
         {/* Policies List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -493,6 +495,7 @@ className="professional-card p-6 group"
                     
                     <p className="text-surface-600 text-sm mb-3">{policy.description}</p>
                     
+</div>
 <div className="space-y-4">
                       {/* Permissions */}
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
@@ -615,6 +618,7 @@ className="professional-card p-6 group"
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
                     </div>
+</div>
                 </div>
               </motion.div>
             ))}
