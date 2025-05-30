@@ -3,6 +3,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
 import StorageDashboard from './pages/StorageDashboard'
+import TermsOfService from './pages/TermsOfService'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 import NotFound from './pages/NotFound'
 import ArchiveManagement from './pages/ArchiveManagement'
 import AccessPolicies from './pages/AccessPolicies'
@@ -20,6 +22,8 @@ function App() {
 <Route path="/origin-policies" element={<OriginPolicies />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+<Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 <Footer />
       
       <ToastContainer

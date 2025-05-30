@@ -31,8 +31,8 @@ const navigationLinks = [
   ]
 
   const legalLinks = [
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Terms of Service', href: '#' },
+{ name: 'Privacy Policy', href: '/privacy-policy' },
+{ name: 'Terms of Service', href: '/terms-of-service' },
     { name: 'Cookie Policy', href: '#' },
     { name: 'Data Processing', href: '#' }
   ]
@@ -150,6 +150,17 @@ const navigationLinks = [
             <ul className="space-y-3 mb-6">
               {legalLinks.map((link) => (
                 <li key={link.name}>
+{(link.name === 'Privacy Policy' || link.name === 'Terms of Service') ? (
+                  <Link
+                    to={link.href}
+                    className="text-surface-300 hover:text-primary-400 transition-colors duration-200 text-sm flex items-center group"
+                  >
+                    <span>{link.name}</span>
+                    <div className="ml-1 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200">
+                      →
+                    </div>
+                  </Link>
+                ) : (
                   <a
                     href={link.href}
                     className="text-surface-300 hover:text-primary-400 transition-colors duration-200 text-sm flex items-center group"
@@ -159,6 +170,7 @@ const navigationLinks = [
                       →
                     </div>
                   </a>
+                )}
                 </li>
               ))}
             </ul>
