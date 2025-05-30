@@ -59,19 +59,6 @@ function Header({
             </span>
           </Link>
           <Link
-            to="/dashboard"
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-              location.pathname === '/dashboard'
-                ? 'bg-white text-primary shadow-card'
-                : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
-            }`}
-          >
-            <span className="flex items-center space-x-2">
-              <ApperIcon name="BarChart3" className="w-4 h-4" />
-              <span>Dashboard</span>
-            </span>
-          </Link>
-          <Link
             to="/archive"
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               location.pathname === '/archive'
@@ -95,6 +82,19 @@ function Header({
             <span className="flex items-center space-x-2">
               <ApperIcon name="Shield" className="w-4 h-4" />
               <span>Policies</span>
+            </span>
+          </Link>
+<Link
+            to="/origin-policies"
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              location.pathname === '/origin-policies'
+                ? 'bg-white text-primary shadow-card'
+                : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+            }`}
+          >
+            <span className="flex items-center space-x-2">
+              <ApperIcon name="Globe" className="w-4 h-4" />
+              <span>Origin Policies</span>
             </span>
           </Link>
         </nav>
