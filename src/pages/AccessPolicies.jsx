@@ -1,0 +1,904 @@
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import ApperIcon from '../components/ApperIcon'
+import { format } from 'date-fns'
+
+function AccessPolicies() {
+  const location = useLocation()
+  const [showPolicyModal, setShowPolicyModal] = useState(false)
+  const [editingPolicy, setEditingPolicy] = useState(null)
+  const [policies, setPolicies] = useState([
+    {
+      id: 1,
+      name: 'Admin Full Access',
+      description: 'Full access to all files and folders',
+      type: 'role',
+      permissions: ['read', 'write', 'delete', 'share', 'manage'],
+      targets: ['admin', 'super-admin'],
+      paths: ['/'],
+      enabled: true,
+      priority: 1,
+      createdDate: new Date('2024-01-01'),
+      appliedTo: 3
+    },
+    {
+      id: 2,
+      name: 'Department Read-Only',
+      description: 'Read-only access to department documents',
+      type: 'group',
+      permissions: ['read'],
+      targets: ['marketing', 'sales', 'hr'],
+      paths: ['/documents/department', '/shared/public'],
+      enabled: true,
+      priority: 2,
+      createdDate: new Date('2024-01-10'),
+      appliedTo: 45
+    },
+    {
+      id: 3,
+      name: 'Guest Limited Access',
+      description: 'Limited access to public files only',
+      type: 'user',
+      permissions: ['read'],
+      targets: ['guest', 'visitor'],
+      paths: ['/public'],
+      enabled: true,
+      priority: 3,
+      createdDate: new Date('2024-01-15'),
+      appliedTo: 12
+    },
+    {
+      id: 4,
+      name: 'Restricted Financial Data',
+      description: 'Restrict access to financial documents',
+      type: 'path',
+      permissions: [],
+      targets: ['all'],
+      paths: ['/finance', '/accounting'],
+      enabled: true,
+      priority: 0,
+      createdDate: new Date('2024-01-20'),
+      appliedTo: 156
+    }
+  ])
+
+  const [policyForm, setPolicyForm] = useState({
+    name: '',
+    description: '',
+    type: 'role',
+    permissions: [],
+    targets: [],
+    paths: ['/'],
+    enabled: true,
+    priority: 1,
+    inheritParent: true,
+    expiry: null
+  })
+
+  const [newTarget, setNewTarget] = useState('')
+  const [newPath, setNewPath] = useState('')
+
+  const policyTemplates = [
+    {
+      name: 'Full Admin Access',
+      description: 'Complete access to all files and functions',
+      type: 'role',
+      permissions: ['read', 'write', 'delete', 'share', 'manage'],
+      targets: ['admin'],
+      paths: ['/'],
+      priority: 1
+    },
+    {
+      name: 'Editor Access',
+      description: 'Read and write access to content files',
+      type: 'role',
+      permissions: ['read', 'write', 'share'],
+      targets: ['editor'],
+      paths: ['/content', '/media'],
+      priority: 2
+    },
+    {
+      name: 'Viewer Only',
+      description: 'Read-only access to public files',
+      type: 'group',
+      permissions: ['read'],
+      targets: ['viewers'],
+      paths: ['/public'],
+      priority: 3
+    },
+    {
+      name: 'Department Restricted',
+      description: 'Block access to sensitive department files',
+      type: 'path',
+      permissions: [],
+      targets: ['all'],
+      paths: ['/confidential'],
+      priority: 0
+    }
+  ]
+
+  const availablePermissions = [
+    { id: 'read', label: 'Read', icon: 'Eye', description: 'View files and folders' },
+    { id: 'write', label: 'Write', icon: 'Edit', description: 'Create and modify files' },
+    { id: 'delete', label: 'Delete', icon: 'Trash2', description: 'Remove files and folders' },
+    { id: 'share', label: 'Share', icon: 'Share2', description: 'Share files with others' },
+    { id: 'manage', label: 'Manage', icon: 'Settings', description: 'Manage permissions and policies' }
+  ]
+
+  const handleCreatePolicy = () => {
+    if (!policyForm.name.trim()) {
+      toast.error('Policy name is required')
+      return
+    }
+
+    if (policyForm.targets.length === 0 && policyForm.type !== 'path') {
+      toast.error('At least one target is required')
+      return
+    }
+
+    const newPolicy = {
+      id: Date.now(),
+      ...policyForm,
+      createdDate: new Date(),
+      appliedTo: 0
+    }
+
+    if (editingPolicy) {
+      setPolicies(prev => prev.map(policy => 
+        policy.id === editingPolicy.id ? { ...newPolicy, id: editingPolicy.id } : policy
+      ))
+      toast.success('Access policy updated successfully!')
+    } else {
+      setPolicies(prev => [...prev, newPolicy])
+      toast.success('Access policy created successfully!')
+    }
+
+    setShowPolicyModal(false)
+    setEditingPolicy(null)
+    resetForm()
+  }
+
+  const resetForm = () => {
+    setPolicyForm({
+      name: '',
+      description: '',
+      type: 'role',
+      permissions: [],
+      targets: [],
+      paths: ['/'],
+      enabled: true,
+      priority: 1,
+      inheritParent: true,
+      expiry: null
+    })
+    setNewTarget('')
+    setNewPath('')
+  }
+
+  const handleEditPolicy = (policy) => {
+    setEditingPolicy(policy)
+    setPolicyForm(policy)
+    setShowPolicyModal(true)
+  }
+
+  const handleDeletePolicy = (policyId) => {
+    if (window.confirm('Are you sure you want to delete this access policy?')) {
+      setPolicies(prev => prev.filter(policy => policy.id !== policyId))
+      toast.success('Access policy deleted successfully!')
+    }
+  }
+
+  const handleTogglePolicy = (policyId) => {
+    setPolicies(prev => prev.map(policy => 
+      policy.id === policyId ? { ...policy, enabled: !policy.enabled } : policy
+    ))
+    toast.success('Policy status updated!')
+  }
+
+  const handleApplyTemplate = (template) => {
+    setPolicyForm({
+      ...template,
+      enabled: true,
+      inheritParent: true,
+      expiry: null
+    })
+  }
+
+  const addTarget = () => {
+    if (newTarget.trim() && !policyForm.targets.includes(newTarget.trim())) {
+      setPolicyForm(prev => ({
+        ...prev,
+        targets: [...prev.targets, newTarget.trim()]
+      }))
+      setNewTarget('')
+    }
+  }
+
+  const removeTarget = (target) => {
+    setPolicyForm(prev => ({
+      ...prev,
+      targets: prev.targets.filter(t => t !== target)
+    }))
+  }
+
+  const addPath = () => {
+    if (newPath.trim() && !policyForm.paths.includes(newPath.trim())) {
+      setPolicyForm(prev => ({
+        ...prev,
+        paths: [...prev.paths, newPath.trim()]
+      }))
+      setNewPath('')
+    }
+  }
+
+  const removePath = (path) => {
+    setPolicyForm(prev => ({
+      ...prev,
+      paths: prev.paths.filter(p => p !== path)
+    }))
+  }
+
+  const togglePermission = (permission) => {
+    setPolicyForm(prev => ({
+      ...prev,
+      permissions: prev.permissions.includes(permission)
+        ? prev.permissions.filter(p => p !== permission)
+        : [...prev.permissions, permission]
+    }))
+  }
+
+  const getPolicyTypeIcon = (type) => {
+    switch (type) {
+      case 'role': return 'UserCheck'
+      case 'group': return 'Users'
+      case 'user': return 'User'
+      case 'path': return 'FolderLock'
+      default: return 'Shield'
+    }
+  }
+
+  const getPolicyTypeColor = (type) => {
+    switch (type) {
+      case 'role': return 'bg-blue-100 text-blue-800'
+      case 'group': return 'bg-green-100 text-green-800'
+      case 'user': return 'bg-purple-100 text-purple-800'
+      case 'path': return 'bg-red-100 text-red-800'
+      default: return 'bg-surface-100 text-surface-800'
+    }
+  }
+
+  return (
+    <div className="min-h-screen">
+      {/* Header */}
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="glass-effect sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4"
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center shadow-card">
+              <ApperIcon name="Shield" className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gradient">Access Policies</h1>
+              <p className="text-xs text-surface-600 hidden sm:block">File Access Control & Permissions</p>
+            </div>
+          </div>
+          
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center space-x-1 bg-surface-100 rounded-xl p-1">
+            <Link
+              to="/"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Upload" className="w-4 h-4" />
+                <span>Files</span>
+              </span>
+            </Link>
+            <Link
+              to="/dashboard"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/dashboard'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="BarChart3" className="w-4 h-4" />
+                <span>Dashboard</span>
+              </span>
+            </Link>
+            <Link
+              to="/archive"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/archive'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Archive" className="w-4 h-4" />
+                <span>Archive</span>
+              </span>
+            </Link>
+            <Link
+              to="/policies"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/policies'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Shield" className="w-4 h-4" />
+                <span>Policies</span>
+              </span>
+            </Link>
+          </nav>
+          
+          <button
+            onClick={() => setShowPolicyModal(true)}
+            className="btn-primary flex items-center space-x-2"
+          >
+            <ApperIcon name="Plus" className="w-4 h-4" />
+            <span className="hidden sm:inline">New Policy</span>
+          </button>
+        </div>
+      </motion.header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        {/* Stats Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+        >
+          <div className="neu-card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-surface-600">Active Policies</p>
+                <p className="text-2xl font-bold text-surface-900">
+                  {policies.filter(policy => policy.enabled).length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                <ApperIcon name="Shield" className="w-6 h-6 text-primary" />
+              </div>
+            </div>
+          </div>
+
+          <div className="neu-card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-surface-600">Users Covered</p>
+                <p className="text-2xl font-bold text-surface-900">
+                  {policies.reduce((sum, policy) => sum + policy.appliedTo, 0)}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                <ApperIcon name="Users" className="w-6 h-6 text-secondary" />
+              </div>
+            </div>
+          </div>
+
+          <div className="neu-card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-surface-600">Role Policies</p>
+                <p className="text-2xl font-bold text-surface-900">
+                  {policies.filter(policy => policy.type === 'role').length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                <ApperIcon name="UserCheck" className="w-6 h-6 text-accent" />
+              </div>
+            </div>
+          </div>
+
+          <div className="neu-card p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-surface-600">Path Restrictions</p>
+                <p className="text-2xl font-bold text-surface-900">
+                  {policies.filter(policy => policy.type === 'path').length}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                <ApperIcon name="FolderLock" className="w-6 h-6 text-red-600" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Policies List */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="neu-card p-6"
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-surface-900">Access Policies</h2>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-surface-600">
+                {policies.length} policy(ies)
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {policies.map((policy, index) => (
+              <motion.div
+                key={policy.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white rounded-xl border border-surface-200 p-4 hover:shadow-soft transition-all duration-200"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-2">
+                      <ApperIcon name={getPolicyTypeIcon(policy.type)} className="w-5 h-5 text-primary" />
+                      <h3 className="font-semibold text-surface-900">{policy.name}</h3>
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        policy.enabled
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-surface-100 text-surface-600'
+                      }`}>
+                        {policy.enabled ? 'Active' : 'Inactive'}
+                      </span>
+                      <span className={`px-2 py-1 text-xs rounded-full ${getPolicyTypeColor(policy.type)}`}>
+                        {policy.type}
+                      </span>
+                      <span className="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full">
+                        Priority {policy.priority}
+                      </span>
+                    </div>
+                    
+                    <p className="text-surface-600 text-sm mb-3">{policy.description}</p>
+                    
+                    <div className="space-y-2">
+                      {/* Permissions */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-medium text-surface-500">Permissions:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {policy.permissions.length > 0 ? (
+                            policy.permissions.map((permission) => (
+                              <span
+                                key={permission}
+                                className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
+                              >
+                                {permission}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded">
+                              No access
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Targets */}
+                      {policy.targets.length > 0 && (
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs font-medium text-surface-500">Targets:</span>
+                          <div className="flex flex-wrap gap-1">
+                            {policy.targets.slice(0, 3).map((target) => (
+                              <span
+                                key={target}
+                                className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded"
+                              >
+                                {target}
+                              </span>
+                            ))}
+                            {policy.targets.length > 3 && (
+                              <span className="px-2 py-1 text-xs bg-surface-100 text-surface-600 rounded">
+                                +{policy.targets.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Paths */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-medium text-surface-500">Paths:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {policy.paths.slice(0, 2).map((path) => (
+                            <span
+                              key={path}
+                              className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded font-mono"
+                            >
+                              {path}
+                            </span>
+                          ))}
+                          {policy.paths.length > 2 && (
+                            <span className="px-2 py-1 text-xs bg-surface-100 text-surface-600 rounded">
+                              +{policy.paths.length - 2} more
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Meta info */}
+                      <div className="flex items-center space-x-4 text-xs text-surface-500 pt-2">
+                        <span className="flex items-center space-x-1">
+                          <ApperIcon name="Calendar" className="w-3 h-3" />
+                          <span>Created {format(policy.createdDate, 'MMM dd, yyyy')}</span>
+                        </span>
+                        <span className="flex items-center space-x-1">
+                          <ApperIcon name="Users" className="w-3 h-3" />
+                          <span>Applied to {policy.appliedTo} users</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2 ml-4">
+                    <button
+                      onClick={() => handleTogglePolicy(policy.id)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        policy.enabled
+                          ? 'bg-green-100 text-green-600 hover:bg-green-200'
+                          : 'bg-surface-100 text-surface-500 hover:bg-surface-200'
+                      }`}
+                      title={policy.enabled ? 'Disable policy' : 'Enable policy'}
+                    >
+                      <ApperIcon name={policy.enabled ? "Toggle" : "ToggleLeft"} className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleEditPolicy(policy)}
+                      className="p-2 rounded-lg bg-surface-100 text-surface-600 hover:bg-surface-200 transition-colors"
+                      title="Edit policy"
+                    >
+                      <ApperIcon name="Edit" className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeletePolicy(policy.id)}
+                      className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-colors"
+                      title="Delete policy"
+                    >
+                      <ApperIcon name="Trash2" className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {policies.length === 0 && (
+            <div className="text-center py-12">
+              <div className="w-24 h-24 mx-auto mb-6 bg-surface-100 rounded-2xl flex items-center justify-center">
+                <ApperIcon name="Shield" className="w-12 h-12 text-surface-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-surface-800 mb-2">No access policies yet</h3>
+              <p className="text-surface-600 max-w-md mx-auto mb-6">
+                Create your first access policy to control who can access your files and what they can do with them.
+              </p>
+              <button
+                onClick={() => setShowPolicyModal(true)}
+                className="btn-primary"
+              >
+                Create First Policy
+              </button>
+            </div>
+          )}
+        </motion.div>
+      </main>
+
+      {/* Create/Edit Policy Modal */}
+      <AnimatePresence>
+        {showPolicyModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+            onClick={() => {
+              setShowPolicyModal(false)
+              setEditingPolicy(null)
+              resetForm()
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-6 border-b border-surface-200">
+                <h2 className="text-xl font-semibold text-surface-900">
+                  {editingPolicy ? 'Edit Access Policy' : 'Create New Access Policy'}
+                </h2>
+              </div>
+              
+              <div className="p-6 space-y-6">
+                {/* Policy Templates */}
+                {!editingPolicy && (
+                  <div>
+                    <h3 className="text-sm font-medium text-surface-900 mb-3">Quick Templates</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {policyTemplates.map((template, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleApplyTemplate(template)}
+                          className="p-3 text-left border border-surface-200 rounded-lg hover:border-primary hover:bg-primary/5 transition-colors"
+                        >
+                          <div className="flex items-center space-x-2 mb-1">
+                            <ApperIcon name={getPolicyTypeIcon(template.type)} className="w-4 h-4" />
+                            <h4 className="font-medium text-surface-900 text-sm">{template.name}</h4>
+                          </div>
+                          <p className="text-xs text-surface-600">{template.description}</p>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-surface-200">
+                      <h3 className="text-sm font-medium text-surface-900 mb-3">Custom Policy</h3>
+                    </div>
+                  </div>
+                )}
+
+                {/* Basic Information */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-surface-900 mb-2">
+                      Policy Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={policyForm.name}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, name: e.target.value }))}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                      placeholder="Enter policy name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-surface-900 mb-2">
+                      Policy Type
+                    </label>
+                    <select
+                      value={policyForm.type}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, type: e.target.value }))}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                    >
+                      <option value="role">Role-based</option>
+                      <option value="group">Group-based</option>
+                      <option value="user">User-specific</option>
+                      <option value="path">Path restriction</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-surface-900 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={policyForm.description}
+                    onChange={(e) => setPolicyForm(prev => ({ ...prev, description: e.target.value }))}
+                    className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                    rows="2"
+                    placeholder="Describe what this policy does"
+                  />
+                </div>
+
+                {/* Permissions */}
+                <div>
+                  <label className="block text-sm font-medium text-surface-900 mb-3">
+                    Permissions
+                  </label>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {availablePermissions.map((permission) => (
+                      <div
+                        key={permission.id}
+                        className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                          policyForm.permissions.includes(permission.id)
+                            ? 'border-primary bg-primary/5'
+                            : 'border-surface-200 hover:border-surface-300'
+                        }`}
+                        onClick={() => togglePermission(permission.id)}
+                      >
+                        <div className="flex items-center space-x-2 mb-1">
+                          <ApperIcon name={permission.icon} className="w-4 h-4" />
+                          <span className="font-medium text-surface-900">{permission.label}</span>
+                          {policyForm.permissions.includes(permission.id) && (
+                            <ApperIcon name="Check" className="w-4 h-4 text-primary ml-auto" />
+                          )}
+                        </div>
+                        <p className="text-xs text-surface-600">{permission.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Targets */}
+                {policyForm.type !== 'path' && (
+                  <div>
+                    <label className="block text-sm font-medium text-surface-900 mb-2">
+                      {policyForm.type === 'role' ? 'Roles' : 
+                       policyForm.type === 'group' ? 'Groups' : 'Users'}
+                    </label>
+                    <div className="space-y-3">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={newTarget}
+                          onChange={(e) => setNewTarget(e.target.value)}
+                          className="flex-1 px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                          placeholder={`Enter ${policyForm.type} name`}
+                          onKeyPress={(e) => e.key === 'Enter' && addTarget()}
+                        />
+                        <button
+                          type="button"
+                          onClick={addTarget}
+                          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                        >
+                          <ApperIcon name="Plus" className="w-4 h-4" />
+                        </button>
+                      </div>
+                      
+                      {policyForm.targets.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {policyForm.targets.map((target, index) => (
+                            <span
+                              key={index}
+                              className="inline-flex items-center space-x-1 px-3 py-1 bg-surface-100 text-surface-800 rounded-full text-sm"
+                            >
+                              <span>{target}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeTarget(target)}
+                                className="text-surface-500 hover:text-red-500"
+                              >
+                                <ApperIcon name="X" className="w-3 h-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Paths */}
+                <div>
+                  <label className="block text-sm font-medium text-surface-900 mb-2">
+                    File Paths
+                  </label>
+                  <div className="space-y-3">
+                    <div className="flex space-x-2">
+                      <input
+                        type="text"
+                        value={newPath}
+                        onChange={(e) => setNewPath(e.target.value)}
+                        className="flex-1 px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none font-mono text-sm"
+                        placeholder="/path/to/folder"
+                        onKeyPress={(e) => e.key === 'Enter' && addPath()}
+                      />
+                      <button
+                        type="button"
+                        onClick={addPath}
+                        className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                      >
+                        <ApperIcon name="Plus" className="w-4 h-4" />
+                      </button>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {policyForm.paths.map((path, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center space-x-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-mono"
+                        >
+                          <span>{path}</span>
+                          <button
+                            type="button"
+                            onClick={() => removePath(path)}
+                            className="text-yellow-600 hover:text-red-500"
+                          >
+                            <ApperIcon name="X" className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Advanced Options */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-surface-900 mb-2">
+                      Priority (0 = highest)
+                    </label>
+                    <input
+                      type="number"
+                      value={policyForm.priority}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, priority: parseInt(e.target.value) || 1 }))}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                      min="0"
+                      max="10"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-surface-900 mb-2">
+                      Expiry Date (optional)
+                    </label>
+                    <input
+                      type="date"
+                      value={policyForm.expiry || ''}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, expiry: e.target.value || null }))}
+                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Checkboxes */}
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="enabled"
+                      checked={policyForm.enabled}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, enabled: e.target.checked }))}
+                      className="w-4 h-4 text-primary focus:ring-primary border-surface-300 rounded"
+                    />
+                    <label htmlFor="enabled" className="text-sm font-medium text-surface-900">
+                      Enable this policy immediately
+                    </label>
+                  </div>
+
+                  <div className="flex items-center space-x-3">
+                    <input
+                      type="checkbox"
+                      id="inheritParent"
+                      checked={policyForm.inheritParent}
+                      onChange={(e) => setPolicyForm(prev => ({ ...prev, inheritParent: e.target.checked }))}
+                      className="w-4 h-4 text-primary focus:ring-primary border-surface-300 rounded"
+                    />
+                    <label htmlFor="inheritParent" className="text-sm font-medium text-surface-900">
+                      Inherit permissions from parent folders
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 border-t border-surface-200 flex justify-end space-x-3">
+                <button
+                  onClick={() => {
+                    setShowPolicyModal(false)
+                    setEditingPolicy(null)
+                    resetForm()
+                  }}
+                  className="btn-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreatePolicy}
+                  className="btn-primary"
+                >
+                  {editingPolicy ? 'Update Policy' : 'Create Policy'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+export default AccessPolicies

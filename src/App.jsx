@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
 import StorageDashboard from './pages/StorageDashboard'
 import NotFound from './pages/NotFound'
+import ArchiveManagement from './pages/ArchiveManagement'
+import AccessPolicies from './pages/AccessPolicies'
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Routes>
 <Route path="/dashboard" element={<StorageDashboard />} />
         <Route path="/" element={<Home />} />
+<Route path="/archive" element={<ArchiveManagement />} />
+        <Route path="/policies" element={<AccessPolicies />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       
