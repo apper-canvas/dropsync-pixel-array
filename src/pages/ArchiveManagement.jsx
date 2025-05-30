@@ -336,6 +336,7 @@ transition={{ delay: 0.1 }}
 </div>
           </motion.div>
         </motion.div>
+        </motion.div>
 
         {/* Rules List */}
         <motion.div
@@ -421,6 +422,7 @@ transition={{ delay: 0.1 }}
                         </p>
                       </div>
                     </div>
+</div>
                   </div>
                   
                     <div className="flex flex-col space-y-2">
@@ -459,6 +461,8 @@ transition={{ delay: 0.1 }}
                       >
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
+</div>
+                  </div>
               </div>
               </motion.div>
             ))}
