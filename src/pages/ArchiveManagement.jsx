@@ -278,8 +278,8 @@ className="bg-white shadow-depth-1 border-b border-surface-200"
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-transition={{ delay: 0.05 }}
+className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          transition={{ delay: 0.05 }}
         >
           <motion.div
             whileHover={{ y: -5 }}
@@ -332,14 +332,13 @@ transition={{ delay: 0.05 }}
               </div>
             </div>
           </motion.div>
+</motion.div>
 
         {/* Rules List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="neu-card p-6"
->
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
@@ -365,7 +364,7 @@ className="professional-card p-6 group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
+<div className="flex items-center space-x-3 mb-2">
 <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
                       </div>
@@ -422,7 +421,6 @@ className="professional-card p-6 group"
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
 <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => handleToggleRule(rule.id)}
@@ -460,6 +458,7 @@ className="professional-card p-6 group"
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
                     </div>
+</div>
                 </div>
               </motion.div>
             ))}
