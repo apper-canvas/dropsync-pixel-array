@@ -361,6 +361,7 @@ return (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+>
 <motion.div
             whileHover={{ y: -5 }}
             className="stat-card group"
@@ -431,7 +432,6 @@ return (
                 <ApperIcon name="FolderLock" className="w-6 h-6" />
               </div>
             </div>
-{/* Policies List */}
         {/* Policies List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
