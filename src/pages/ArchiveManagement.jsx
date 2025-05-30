@@ -333,8 +333,8 @@ transition={{ delay: 0.1 }}
                 <ApperIcon name="HardDrive" className="w-6 h-6" />
               </div>
             </div>
+</div>
           </motion.div>
-</motion.div>
         </motion.div>
 
         {/* Rules List */}
@@ -364,7 +364,6 @@ transition={{ delay: 0.1 }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-transition={{ delay: index * 0.1 }}
                 className="bg-white p-6 rounded-2xl shadow-depth-1 hover:shadow-depth-2 transition-all duration-300 border border-surface-200"
               >
                 <div className="flex items-center justify-between">
@@ -384,7 +383,6 @@ transition={{ delay: index * 0.1 }}
                       <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full border border-primary-300 capitalize">
                         {rule.schedule}
                       </span>
-</div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
                         <div className="flex items-center space-x-2">
