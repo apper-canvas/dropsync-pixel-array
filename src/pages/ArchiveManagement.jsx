@@ -368,6 +368,7 @@ transition={{ delay: 0.1 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
+<div>
 <div className="flex items-center space-x-4 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
@@ -462,6 +463,7 @@ transition={{ delay: 0.1 }}
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
                     </div>
+</div>
 </div>
                 </div>
               </motion.div>
