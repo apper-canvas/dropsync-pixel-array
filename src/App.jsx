@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound'
 import ArchiveManagement from './pages/ArchiveManagement'
 import AccessPolicies from './pages/AccessPolicies'
 import OriginPolicies from './pages/OriginPolicies'
+import DataProcessing from './pages/DataProcessing'
 import Footer from './components/Footer'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/dashboard" element={<StorageDashboard />} />
         <Route path="/archive" element={<ArchiveManagement />} />
         <Route path="/policies" element={<AccessPolicies />} />
+<Route path="/data-processing" element={<DataProcessing />} />
         <Route path="/origin-policies" element={<OriginPolicies />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
