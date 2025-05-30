@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Header from '../components/Header'
 import ApperIcon from '../components/ApperIcon'
 import { format } from 'date-fns'
 
 function AccessPolicies() {
-  const location = useLocation()
   const [showPolicyModal, setShowPolicyModal] = useState(false)
   const [editingPolicy, setEditingPolicy] = useState(null)
   const [policies, setPolicies] = useState([
@@ -271,88 +270,21 @@ function AccessPolicies() {
 
 return (
     <div className="min-h-screen bg-gradient-to-br from-surface-50 to-surface-100">
-      {/* Header */}
-      <motion.header 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="glass-effect sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-4 border-b border-surface-200/60"
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="icon-badge icon-badge-secondary">
-              <ApperIcon name="Shield" className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gradient">Access Policies</h1>
-              <p className="text-xs text-surface-600 hidden sm:block">File Access Control & Permissions</p>
-            </div>
-          </div>
-          
-          {/* Navigation */}
-<nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
-            <Link
-              to="/"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Upload" className="w-4 h-4" />
-                <span>Files</span>
-              </span>
-            </Link>
-            <Link
-              to="/dashboard"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/dashboard'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="BarChart3" className="w-4 h-4" />
-                <span>Dashboard</span>
-              </span>
-            </Link>
-            <Link
-              to="/archive"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/archive'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Archive" className="w-4 h-4" />
-                <span>Archive</span>
-              </span>
-            </Link>
-            <Link
-              to="/policies"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/policies'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Shield" className="w-4 h-4" />
-                <span>Policies</span>
-              </span>
-            </Link>
-          </nav>
-          
-          <button
-            onClick={() => setShowPolicyModal(true)}
-            className="btn-primary flex items-center space-x-2"
-          >
-            <ApperIcon name="Plus" className="w-4 h-4" />
-            <span className="hidden sm:inline">New Policy</span>
-          </button>
-        </div>
-      </motion.header>
+      <Header 
+        title="Access Policies"
+        subtitle="File Access Control & Permissions"
+        icon="Shield"
+      />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-end">
+        <button
+          onClick={() => setShowPolicyModal(true)}
+          className="btn-primary flex items-center space-x-2"
+        >
+          <ApperIcon name="Plus" className="w-4 h-4" />
+          <span className="hidden sm:inline">New Policy</span>
+        </button>
+      </div>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
