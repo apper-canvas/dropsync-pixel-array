@@ -333,9 +333,7 @@ transition={{ delay: 0.1 }}
                 <ApperIcon name="HardDrive" className="w-6 h-6" />
               </div>
             </div>
-</div>
-          </motion.div>
-        </motion.div>
+</motion.div>
 
         {/* Rules List */}
         <motion.div
@@ -368,7 +366,6 @@ transition={{ delay: 0.1 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-<div>
 <div className="flex items-center space-x-4 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
@@ -384,7 +381,7 @@ transition={{ delay: 0.1 }}
                       <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full border border-primary-300 capitalize">
                         {rule.schedule}
                       </span>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
                         <div className="flex items-center space-x-2">
                           <ApperIcon name="Filter" className="w-4 h-4 text-blue-600" />
@@ -426,6 +423,7 @@ transition={{ delay: 0.1 }}
                   </div>
                   
 <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
                     <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => handleToggleRule(rule.id)}
@@ -462,8 +460,6 @@ transition={{ delay: 0.1 }}
                       >
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
-                    </div>
-</div>
 </div>
                 </div>
               </motion.div>
