@@ -19,10 +19,11 @@ import {
 
 function OriginPolicies() {
   const [darkMode, setDarkMode] = useState(false)
-  const [policies, setPolicies] = useState([
+const [policies, setPolicies] = useState([
     {
       id: 1,
       origin: 'https://example.com',
+      patternType: 'url',
       type: 'allow',
       description: 'Production website access',
       enabled: true,
@@ -32,6 +33,7 @@ function OriginPolicies() {
     {
       id: 2,
       origin: 'https://test.malicious-site.com',
+      patternType: 'url',
       type: 'deny',
       description: 'Blocked malicious domain',
       enabled: true,
@@ -40,12 +42,23 @@ function OriginPolicies() {
     },
     {
       id: 3,
-      origin: 'https://staging.example.com',
+      origin: '.*\\.staging\\.example\\.com$',
+      patternType: 'regex',
       type: 'allow',
-      description: 'Staging environment access',
+      description: 'All staging subdomains',
       enabled: false,
       createdAt: new Date('2024-01-12'),
       lastUsed: new Date('2024-01-19')
+    },
+    {
+      id: 4,
+      origin: 'https://(dev|test)\\..*',
+      patternType: 'regex',
+      type: 'allow',
+      description: 'Development and test environments',
+      enabled: true,
+      createdAt: new Date('2024-01-14'),
+      lastUsed: new Date('2024-01-21')
     }
   ])
   const [searchTerm, setSearchTerm] = useState('')
@@ -54,8 +67,9 @@ function OriginPolicies() {
   const [showEditModal, setShowEditModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedPolicy, setSelectedPolicy] = useState(null)
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     origin: '',
+    patternType: 'url',
     type: 'allow',
     description: '',
     enabled: true
@@ -67,13 +81,15 @@ function OriginPolicies() {
     document.documentElement.classList.toggle('dark')
   }
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {}
     
     if (!formData.origin.trim()) {
-      newErrors.origin = 'Origin URL is required'
-    } else if (!isValidURL(formData.origin)) {
+      newErrors.origin = formData.patternType === 'url' ? 'Origin URL is required' : 'Origin pattern is required'
+    } else if (formData.patternType === 'url' && !isValidURL(formData.origin)) {
       newErrors.origin = 'Please enter a valid URL'
+    } else if (formData.patternType === 'regex' && !isValidRegex(formData.origin)) {
+      newErrors.origin = 'Please enter a valid regular expression pattern'
     }
     
     if (!formData.description.trim()) {
@@ -93,9 +109,19 @@ function OriginPolicies() {
     }
   }
 
-  const resetForm = () => {
+  const isValidRegex = (pattern) => {
+    try {
+      new RegExp(pattern)
+      return true
+    } catch (_) {
+      return false
+    }
+  }
+
+const resetForm = () => {
     setFormData({
       origin: '',
+      patternType: 'url',
       type: 'allow',
       description: '',
       enabled: true
@@ -108,10 +134,11 @@ function OriginPolicies() {
     resetForm()
   }
 
-  const handleEdit = (policy) => {
+const handleEdit = (policy) => {
     setSelectedPolicy(policy)
     setFormData({
       origin: policy.origin,
+      patternType: policy.patternType || 'url',
       type: policy.type,
       description: policy.description,
       enabled: policy.enabled
@@ -324,7 +351,7 @@ function OriginPolicies() {
             <table className="w-full">
               <thead className="bg-surface-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-surface-500 uppercase tracking-wider">Origin</th>
+<th className="px-6 py-3 text-left text-xs font-medium text-surface-500 uppercase tracking-wider">Origin / Pattern</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-surface-500 uppercase tracking-wider">Type</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-surface-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-surface-500 uppercase tracking-wider">Description</th>
@@ -335,10 +362,19 @@ function OriginPolicies() {
               <tbody className="bg-white divide-y divide-surface-200">
                 {filteredPolicies.map((policy) => (
                   <tr key={policy.id} className="hover:bg-surface-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
+<td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Globe className="w-4 h-4 text-surface-400 mr-2" />
-                        <span className="text-sm font-medium text-surface-900">{policy.origin}</span>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium text-surface-900">{policy.origin}</span>
+                          <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium mt-1 ${
+                            (policy.patternType || 'url') === 'regex' 
+                              ? 'bg-purple-100 text-purple-800' 
+                              : 'bg-blue-100 text-blue-800'
+                          }`}>
+                            {(policy.patternType || 'url') === 'regex' ? 'Regex Pattern' : 'Exact URL'}
+                          </span>
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -428,20 +464,42 @@ function OriginPolicies() {
                         Add Origin Policy
                       </h3>
                       
-                      <div className="space-y-4">
+<div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-surface-700 mb-1">
-                            Origin URL
+                            Pattern Type
+                          </label>
+                          <select
+                            value={formData.patternType}
+                            onChange={(e) => setFormData({...formData, patternType: e.target.value})}
+                            className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          >
+                            <option value="url">Exact URL</option>
+                            <option value="regex">Regular Expression</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-surface-700 mb-1">
+                            {formData.patternType === 'url' ? 'Origin URL' : 'Origin Pattern'}
                           </label>
                           <input
-                            type="url"
+                            type={formData.patternType === 'url' ? 'url' : 'text'}
                             value={formData.origin}
                             onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                            placeholder="https://example.com"
+                            placeholder={formData.patternType === 'url' 
+                              ? 'https://example.com' 
+                              : '.*\\.example\\.com$ or https://(staging|dev)\\..*'
+                            }
                             className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
                               errors.origin ? 'border-error-300' : 'border-surface-300'
                             }`}
                           />
+                          {formData.patternType === 'regex' && (
+                            <p className="text-xs text-surface-500 mt-1">
+                              Use regex patterns like: <code className="bg-surface-100 px-1 rounded">.*\.example\.com$</code> for subdomains
+                            </p>
+                          )}
                           {errors.origin && <p className="text-error-600 text-sm mt-1">{errors.origin}</p>}
                         </div>
                         
@@ -530,20 +588,42 @@ function OriginPolicies() {
                         Edit Origin Policy
                       </h3>
                       
-                      <div className="space-y-4">
+<div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-surface-700 mb-1">
-                            Origin URL
+                            Pattern Type
+                          </label>
+                          <select
+                            value={formData.patternType}
+                            onChange={(e) => setFormData({...formData, patternType: e.target.value})}
+                            className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          >
+                            <option value="url">Exact URL</option>
+                            <option value="regex">Regular Expression</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-surface-700 mb-1">
+                            {formData.patternType === 'url' ? 'Origin URL' : 'Origin Pattern'}
                           </label>
                           <input
-                            type="url"
+                            type={formData.patternType === 'url' ? 'url' : 'text'}
                             value={formData.origin}
                             onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                            placeholder="https://example.com"
+                            placeholder={formData.patternType === 'url' 
+                              ? 'https://example.com' 
+                              : '.*\\.example\\.com$ or https://(staging|dev)\\..*'
+                            }
                             className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
                               errors.origin ? 'border-error-300' : 'border-surface-300'
                             }`}
                           />
+                          {formData.patternType === 'regex' && (
+                            <p className="text-xs text-surface-500 mt-1">
+                              Use regex patterns like: <code className="bg-surface-100 px-1 rounded">.*\.example\.com$</code> for subdomains
+                            </p>
+                          )}
                           {errors.origin && <p className="text-error-600 text-sm mt-1">{errors.origin}</p>}
                         </div>
                         
