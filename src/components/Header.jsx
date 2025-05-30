@@ -45,14 +45,17 @@ function Header({
               <span>Files</span>
             </span>
           </Link>
-          <Link
+<Link
             to="/dashboard"
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               location.pathname === '/dashboard'
+                ? 'bg-white text-primary shadow-card'
+                : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+            }`}
           >
             <span className="flex items-center space-x-2">
-              <ApperIcon name="Upload" className="w-4 h-4" />
-              <span>Files</span>
+              <ApperIcon name="BarChart3" className="w-4 h-4" />
+              <span>Dashboard</span>
             </span>
           </Link>
           <Link
