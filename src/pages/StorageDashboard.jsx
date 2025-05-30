@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Chart from 'react-apexcharts'
+import ApperIcon from '../components/ApperIcon'
 import Header from '../components/Header'
 import { format, subDays, startOfDay } from 'date-fns'
 
