@@ -204,73 +204,73 @@ function ArchiveManagement() {
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-className="header-gradient shadow-professional text-white"
+        className="header-gradient shadow-professional text-white"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex items-center justify-between">
-          <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
-            <Link
-              to="/"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
+            <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
+              <Link
+                to="/"
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === '/'
+                    ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                    : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
+                }`}
+              >
+                <span className="flex items-center space-x-2">
+                  <ApperIcon name="Upload" className="w-4 h-4" />
+                  <span>Files</span>
+                </span>
+              </Link>
+              <Link
+                to="/dashboard"
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === '/dashboard'
+                    ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                    : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
+                }`}
+              >
+                <span className="flex items-center space-x-2">
+                  <ApperIcon name="BarChart3" className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </span>
+              </Link>
+              <Link
+                to="/archive"
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === '/archive'
+                    ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                    : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
+                }`}
+              >
+                <span className="flex items-center space-x-2">
+                  <ApperIcon name="Archive" className="w-4 h-4" />
+                  <span>Archive</span>
+                </span>
+              </Link>
+              <Link
+                to="/policies"
+                className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                  location.pathname === '/policies'
+                    ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
+                    : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
+                }`}
+              >
+                <span className="flex items-center space-x-2">
+                  <ApperIcon name="Shield" className="w-4 h-4" />
+                  <span>Policies</span>
+                </span>
+              </Link>
+            </nav>
+            
+            <button
+              onClick={() => setShowRuleModal(true)}
+              className="btn-primary flex items-center space-x-2 shadow-depth-2 hover:shadow-depth-3"
             >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Upload" className="w-4 h-4" />
-                <span>Files</span>
-              </span>
-            </Link>
-            <Link
-              to="/dashboard"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/dashboard'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="BarChart3" className="w-4 h-4" />
-                <span>Dashboard</span>
-              </span>
-            </Link>
-            <Link
-              to="/archive"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/archive'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Archive" className="w-4 h-4" />
-                <span>Archive</span>
-              </span>
-            </Link>
-            <Link
-              to="/policies"
-              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
-                location.pathname === '/policies'
-                  ? 'bg-white text-primary shadow-depth-2 border border-primary/20'
-                  : 'text-surface-600 hover:text-surface-800 hover:bg-white/70 hover:shadow-depth-1'
-              }`}
-            >
-              <span className="flex items-center space-x-2">
-                <ApperIcon name="Shield" className="w-4 h-4" />
-                <span>Policies</span>
-              </span>
-            </Link>
-          </nav>
-          
-          <button
-            onClick={() => setShowRuleModal(true)}
-            className="btn-primary flex items-center space-x-2 shadow-depth-2 hover:shadow-depth-3"
-          >
-            <ApperIcon name="Plus" className="w-4 h-4" />
-            <span className="hidden sm:inline">New Rule</span>
-</button>
-        </div>
+              <ApperIcon name="Plus" className="w-4 h-4" />
+              <span className="hidden sm:inline">New Rule</span>
+            </button>
+          </div>
         </div>
       </motion.header>
 
@@ -280,7 +280,7 @@ className="header-gradient shadow-professional text-white"
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-transition={{ delay: 0.1 }}
+          transition={{ delay: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
           <motion.div
@@ -333,9 +333,7 @@ transition={{ delay: 0.1 }}
                 <ApperIcon name="HardDrive" className="w-6 h-6" />
               </div>
             </div>
-</div>
           </motion.div>
-        </motion.div>
         </motion.div>
 
         {/* Rules List */}
@@ -369,7 +367,7 @@ transition={{ delay: 0.1 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-<div className="flex items-center space-x-4 mb-4">
+                    <div className="flex items-center space-x-4 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
                       </div>
@@ -384,6 +382,11 @@ transition={{ delay: 0.1 }}
                       <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full border border-primary-300 capitalize">
                         {rule.schedule}
                       </span>
+                    </div>
+
+                    <p className="text-surface-600 mb-4">{rule.description}</p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
                         <div className="flex items-center space-x-2">
                           <ApperIcon name="Filter" className="w-4 h-4 text-blue-600" />
@@ -422,9 +425,9 @@ transition={{ delay: 0.1 }}
                         </p>
                       </div>
                     </div>
-</div>
                   </div>
                   
+                  <div className="flex items-center space-x-2 ml-6">
                     <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => handleToggleRule(rule.id)}
@@ -461,9 +464,9 @@ transition={{ delay: 0.1 }}
                       >
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
-</div>
+                    </div>
                   </div>
-              </div>
+                </div>
               </motion.div>
             ))}
           </div>
