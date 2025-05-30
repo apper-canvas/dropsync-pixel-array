@@ -59,6 +59,32 @@ const location = useLocation()
                 <span>Dashboard</span>
               </span>
             </Link>
+<Link
+              to="/archive"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/archive'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Archive" className="w-4 h-4" />
+                <span>Archive</span>
+              </span>
+            </Link>
+            <Link
+              to="/policies"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/policies'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Shield" className="w-4 h-4" />
+                <span>Policies</span>
+              </span>
+            </Link>
           </nav>
           
           <div className="flex items-center space-x-4">
