@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound'
 import ArchiveManagement from './pages/ArchiveManagement'
 import AccessPolicies from './pages/AccessPolicies'
 import OriginPolicies from './pages/OriginPolicies'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
 <Route path="/origin-policies" element={<OriginPolicies />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+<Footer />
       
       <ToastContainer
         position="top-right"
