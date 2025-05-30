@@ -270,6 +270,7 @@ className="bg-white shadow-depth-1 border-b border-surface-200"
             <span className="hidden sm:inline">New Rule</span>
           </button>
         </div>
+</motion.header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
@@ -279,7 +280,8 @@ className="bg-white shadow-depth-1 border-b border-surface-200"
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
 transition={{ delay: 0.05 }}
-          <motion.div 
+        >
+          <motion.div
             whileHover={{ y: -5 }}
             className="stat-card group"
           >
@@ -378,9 +380,8 @@ className="professional-card p-6 group"
                       <span className="px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 rounded-full border border-primary-300 capitalize">
                         {rule.schedule}
                       </span>
-                    <p className="text-surface-600 text-sm mb-2">{rule.description}</p>
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-surface-500">
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                       <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl border border-blue-200">
                         <div className="flex items-center space-x-2">
                           <ApperIcon name="Filter" className="w-4 h-4 text-blue-600" />
