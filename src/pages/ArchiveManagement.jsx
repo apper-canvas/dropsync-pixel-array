@@ -204,7 +204,7 @@ function ArchiveManagement() {
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
->
+className="header-gradient shadow-professional text-white"
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
             <Link
@@ -339,11 +339,7 @@ className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           transition={{ delay: 0.1 }}
         >
           <div className="flex items-center justify-between mb-8">
-
-        {/* Rules List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+<div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
               <p className="text-surface-600 mt-1">Manage automated file archival policies</p>
@@ -463,6 +459,7 @@ className="professional-card p-6 group"
                         <ApperIcon name="Trash2" className="w-4 h-4" />
                       </button>
                     </div>
+</div>
 </div>
               </motion.div>
             ))}
