@@ -204,7 +204,6 @@ function ArchiveManagement() {
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-className="bg-white shadow-depth-1 border-b border-surface-200"
 >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
@@ -279,7 +278,6 @@ className="bg-white shadow-depth-1 border-b border-surface-200"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
 className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-          transition={{ delay: 0.05 }}
         >
           <motion.div
             whileHover={{ y: -5 }}
@@ -339,7 +337,13 @@ className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
+        >
           <div className="flex items-center justify-between mb-8">
+
+        {/* Rules List */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             <div>
               <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
               <p className="text-surface-600 mt-1">Manage automated file archival policies</p>
@@ -365,7 +369,7 @@ className="professional-card p-6 group"
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
 <div className="flex items-center space-x-3 mb-2">
-<div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
+                      <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-depth-1">
                         <ApperIcon name="Archive" className="w-4 h-4 text-white" />
                       </div>
                       <h3 className="font-bold text-surface-900 text-lg">{rule.name}</h3>
@@ -421,7 +425,8 @@ className="professional-card p-6 group"
                     </div>
                   </div>
                   
-<div className="flex flex-col space-y-2">
+<div className="flex items-center space-x-4">
+                    <div className="flex flex-col space-y-2">
                       <button
                         onClick={() => handleToggleRule(rule.id)}
                         className={`p-3 rounded-xl transition-all duration-200 ${
@@ -459,7 +464,6 @@ className="professional-card p-6 group"
                       </button>
                     </div>
 </div>
-                </div>
               </motion.div>
             ))}
           </div>
