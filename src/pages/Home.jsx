@@ -2,8 +2,10 @@ import { useState } from 'react'
 import MainFeature from '../components/MainFeature'
 import ApperIcon from '../components/ApperIcon'
 import { motion } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom'
 
 function Home() {
+const location = useLocation()
   const [darkMode, setDarkMode] = useState(false)
 
   const toggleDarkMode = () => {
@@ -29,6 +31,35 @@ function Home() {
               <p className="text-xs text-surface-600 hidden sm:block">File Management Platform</p>
             </div>
           </div>
+{/* Navigation */}
+          <nav className="hidden md:flex items-center space-x-1 bg-surface-100 rounded-xl p-1">
+            <Link
+              to="/"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="Upload" className="w-4 h-4" />
+                <span>Files</span>
+              </span>
+            </Link>
+            <Link
+              to="/dashboard"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                location.pathname === '/dashboard'
+                  ? 'bg-white text-primary shadow-card'
+                  : 'text-surface-600 hover:text-surface-800 hover:bg-surface-50'
+              }`}
+            >
+              <span className="flex items-center space-x-2">
+                <ApperIcon name="BarChart3" className="w-4 h-4" />
+                <span>Dashboard</span>
+              </span>
+            </Link>
+          </nav>
           
           <div className="flex items-center space-x-4">
             <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-surface-600">
