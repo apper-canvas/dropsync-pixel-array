@@ -208,8 +208,6 @@ className="header-gradient shadow-professional text-white"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex items-center justify-between">
-className="header-gradient shadow-professional text-white"
->
           <nav className="hidden md:flex items-center space-x-2 bg-gradient-to-r from-surface-100 to-surface-50 rounded-2xl p-2 shadow-depth-1">
             <Link
               to="/"
@@ -271,12 +269,10 @@ className="header-gradient shadow-professional text-white"
           >
             <ApperIcon name="Plus" className="w-4 h-4" />
             <span className="hidden sm:inline">New Rule</span>
-          </button>
 </button>
-          </div>
+        </div>
         </div>
       </motion.header>
-</motion.header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
@@ -287,6 +283,7 @@ className="header-gradient shadow-professional text-white"
 transition={{ delay: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12"
         >
+          <motion.div
             whileHover={{ y: -5 }}
             className="stat-card group"
           >
@@ -338,6 +335,7 @@ transition={{ delay: 0.1 }}
             </div>
           </motion.div>
 </motion.div>
+        </motion.div>
 
         {/* Rules List */}
         <motion.div
