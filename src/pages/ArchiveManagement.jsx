@@ -198,26 +198,12 @@ function ArchiveManagement() {
   }
 
 return (
-<div className="min-h-screen">
-      <div className="header-gradient shadow-professional text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="flex items-center justify-between">
-            <Header 
-              title="Archive Management"
-              subtitle="Automated File Archival"
-              icon="Archive"
-            />
-            
-            <button
-              onClick={() => setShowRuleModal(true)}
-              className="btn-primary flex items-center space-x-2 shadow-depth-2 hover:shadow-depth-3"
-            >
-              <ApperIcon name="Plus" className="w-4 h-4" />
-              <span className="hidden sm:inline">New Rule</span>
-            </button>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen">
+      <Header 
+        title="Archive Management"
+        subtitle="Automated File Archival"
+        icon="Archive"
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
@@ -287,12 +273,19 @@ return (
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="flex items-center justify-between mb-8">
+<div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold text-surface-900">Archival Rules</h2>
               <p className="text-surface-600 mt-1">Manage automated file archival policies</p>
             </div>
             <div className="flex items-center space-x-4">
+<button
+                onClick={() => setShowRuleModal(true)}
+                className="btn-primary flex items-center space-x-2 shadow-depth-2 hover:shadow-depth-3"
+              >
+                <ApperIcon name="Plus" className="w-4 h-4" />
+                <span className="hidden sm:inline">New Rule</span>
+              </button>
               <div className="bg-gradient-to-r from-primary-50 to-primary-100 px-4 py-2 rounded-xl border border-primary-200">
                 <span className="text-sm font-semibold text-primary-700">
                   {archivalRules.length} rule{archivalRules.length !== 1 ? 's' : ''}
